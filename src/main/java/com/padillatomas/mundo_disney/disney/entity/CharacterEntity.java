@@ -5,10 +5,11 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -34,8 +35,11 @@ public class CharacterEntity {
 	
 	private String history;
 	
+	// Soft Delete:
+	private boolean deleted = Boolean.FALSE;
+	
 	// ManyToMany: Peliculas
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "movieCharacters", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<MovieEntity> characterMovies = new ArrayList<>();
 	
 	

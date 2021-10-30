@@ -4,10 +4,13 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -27,9 +30,26 @@ public class GenreEntity {
 	
 	private String imageUrl;
 	
+	// Soft Delete:
+	private boolean deleted = Boolean.FALSE;		
+	
 	// ManyToMany: Peliculas
-	@OneToMany( cascade = CascadeType.ALL)
+	@ManyToMany(
+			cascade = {
+					CascadeType.PERSIST,
+					CascadeType.MERGE,
+			}, fetch = FetchType.LAZY)
+	@JoinTable(
+			name = "genre_movies",
+			joinColumns= @JoinColumn(name = "genre_id"),
+			inverseJoinColumns = @JoinColumn(name = "movie_id"))
 	private List<MovieEntity> genreMovies = new ArrayList<>();
+	
+	
+	// Metodos:
+	
+	// addMovie
+	// removeMovie
 	
 
 }
