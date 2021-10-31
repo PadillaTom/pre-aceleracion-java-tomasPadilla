@@ -43,6 +43,13 @@ public class MovieMapper {
 	
 	//
 	// === List<Entity> -> List<DTO> ===
+	public List<MovieDTO> movieEntityList2DTOList(List<MovieEntity> entList){
+		List<MovieDTO> dtoList = new ArrayList<>();
+		for(MovieEntity ent : entList) {
+			dtoList.add(this.entity2DTO(ent));
+		}
+		return dtoList;
+	}
 
 	// BASIC
 
