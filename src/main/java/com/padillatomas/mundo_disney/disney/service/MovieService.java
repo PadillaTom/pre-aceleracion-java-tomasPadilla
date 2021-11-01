@@ -14,5 +14,12 @@ public interface MovieService {
 	
 	// POST
 	MovieDTO saveNewMovie(MovieDTO newMovie);
+	void addCharacterToMovie(Long movieId, Long charId);
+	void addGenreToMovie(Long movieId, Long genreId);
+
+	// DEL
+	void deleteMovieById(Long id);
+
+
 
 }

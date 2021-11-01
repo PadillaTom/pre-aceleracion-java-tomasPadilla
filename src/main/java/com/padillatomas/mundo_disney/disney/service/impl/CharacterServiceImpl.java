@@ -49,11 +49,17 @@ public class CharacterServiceImpl implements CharacterService {
 		CharacterEntity savedEntity = charRepo.save(newEntity);
 		CharacterDTO savedChar = charMapper.entity2DTO(savedEntity, false);		
 		return savedChar;
+	}
+	
+	// == DELETE ==
+	@Override
+	public void deleteCharacterById(Long id) {
+		charRepo.deleteById(id);		
 	}	
 
 	
 	// == GET ==
-	// == GET ==
+	
 	
 	// == METHODS ==
 	

@@ -27,14 +27,14 @@ public class GenreMapper {
 	
 	//
 	// === Entity -> DTO ===
-	public GenreDTO genreEntity2DTO(GenreEntity savedGenre) {
+	public GenreDTO genreEntity2DTO(GenreEntity savedGenre, Boolean b) {
 		GenreDTO dto = new GenreDTO();
 		dto.setId(savedGenre.getId());
 		dto.setName(savedGenre.getName());
-		dto.setImageUrl(savedGenre.getImageUrl());
-		
-		// FALSE ALL GET GENRES
-		dto.setGenreMovies(movieMapper.movieEntityList2DTOList(savedGenre.getGenreMovies()));
+		dto.setImageUrl(savedGenre.getImageUrl());	
+		if(b) {
+			dto.setGenreMovies(movieMapper.movieEntityList2DTOList(savedGenre.getGenreMovies()));			
+		}
 		return dto;
 	}	
 	
@@ -43,7 +43,7 @@ public class GenreMapper {
 	public List<GenreDTO> genreEntityList2DTOList(List<GenreEntity> savedGenres) {
 		List<GenreDTO> dtoList = new ArrayList<>();
 		for (GenreEntity ent : savedGenres) {
-			dtoList.add(this.genreEntity2DTO(ent));
+			dtoList.add(this.genreEntity2DTO(ent, false));
 		}
 		return dtoList;
 	}

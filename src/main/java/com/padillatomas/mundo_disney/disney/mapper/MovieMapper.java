@@ -18,6 +18,9 @@ public class MovieMapper {
 	// Character Mapper:
 	@Autowired
 	private CharacterMapper charMapper;
+	@Autowired
+	private GenreMapper genMapper;
+	
 
 	//
 	// === DTO -> Entity ===
@@ -42,6 +45,7 @@ public class MovieMapper {
 		dto.setCreationDate(this.localDate2String(dbMovie.getCreationDate()));
 		if(b) {
 			dto.setMovieCharacters(charMapper.charListEntity2DTOList(dbMovie.getMovieCharacters()));
+			dto.setMovieGenres(genMapper.genreEntityList2DTOList(dbMovie.getMovieGenres()));
 		}		
 		return dto;
 	}

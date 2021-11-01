@@ -12,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,6 +22,8 @@ import lombok.Setter;
 @Table(name = "characters")
 @Getter
 @Setter
+@SQLDelete(sql = "UPDATE characters SET deleted = true WHERE id=?")
+@Where(clause = "deleted = false")
 public class CharacterEntity {
 	
 	@Id

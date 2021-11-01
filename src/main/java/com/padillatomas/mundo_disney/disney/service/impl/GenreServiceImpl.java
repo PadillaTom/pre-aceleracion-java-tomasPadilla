@@ -26,7 +26,7 @@ public class GenreServiceImpl implements GenreService {
 	public GenreDTO saveNewGenre(GenreDTO newGenre) {
 		GenreEntity newEntity = genreMapper.genreDTO2Entity(newGenre);
 		GenreEntity savedGenre = genreRepo.save(newEntity);
-		GenreDTO resultDTO = genreMapper.genreEntity2DTO(savedGenre);
+		GenreDTO resultDTO = genreMapper.genreEntity2DTO(savedGenre, false);
 		return resultDTO;
 	}
 
@@ -37,7 +37,11 @@ public class GenreServiceImpl implements GenreService {
 		List<GenreDTO> resultDTO = genreMapper.genreEntityList2DTOList(savedGenres);
 		return resultDTO;
 	}
-	
-	
+
+	// == DELETE ==
+	@Override
+	public void deleteGenreById(Long id) {
+		genreRepo.deleteById(id);		
+	}	
 
 }

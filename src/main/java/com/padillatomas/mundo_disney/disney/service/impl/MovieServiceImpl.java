@@ -7,8 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.padillatomas.mundo_disney.disney.dto.MovieBasicDTO;
 import com.padillatomas.mundo_disney.disney.dto.MovieDTO;
+import com.padillatomas.mundo_disney.disney.entity.CharacterEntity;
+import com.padillatomas.mundo_disney.disney.entity.GenreEntity;
 import com.padillatomas.mundo_disney.disney.entity.MovieEntity;
 import com.padillatomas.mundo_disney.disney.mapper.MovieMapper;
+import com.padillatomas.mundo_disney.disney.repository.CharacterRepository;
+import com.padillatomas.mundo_disney.disney.repository.GenreRepository;
 import com.padillatomas.mundo_disney.disney.repository.MovieRepository;
 import com.padillatomas.mundo_disney.disney.service.MovieService;
 
@@ -18,9 +22,14 @@ public class MovieServiceImpl implements MovieService {
 	// Repository:
 	@Autowired
 	private MovieRepository movieRepo;
+	@Autowired
+	private CharacterRepository charRepo;
+	@Autowired
+	private GenreRepository genreRepo;
+	
 	// Mapper:
 	@Autowired
-	private MovieMapper movieMapper;
+	private MovieMapper movieMapper;	
 	
 	// == GET ==
 	@Override
@@ -45,6 +54,35 @@ public class MovieServiceImpl implements MovieService {
 		MovieEntity savedEntity = movieRepo.save(newEntity);
 		MovieDTO resultDTO = movieMapper.entity2DTO(savedEntity, false);
 		return resultDTO;
+	}
+	
+	@Override
+	public void addCharacterToMovie(Long movieId, Long charId) {
+		// TODO OPTIONALS
+		MovieEntity savedMovie = movieRepo.getById(movieId);
+		CharacterEntity savedChar = charRepo.getById(charId);	
+		
+		savedMovie.getMovieCharacters().size();
+		savedMovie.addCharacterToMovie(savedChar);			
+		movieRepo.save(savedMovie);		
+	}
+	
+	@Override
+	public void addGenreToMovie(Long movieId, Long genreId) {
+		// TODO Optionals
+		MovieEntity savedMovie = movieRepo.getById(movieId);
+		GenreEntity savedGenre = genreRepo.getById(genreId);
+		
+		savedMovie.getMovieGenres().size();
+		savedMovie.addGenreToMovie(savedGenre);
+		movieRepo.save(savedMovie);		
+	}
+	
+
+	// == DELETE ==
+	@Override
+	public void deleteMovieById(Long id) {
+		movieRepo.deleteById(id);
 	}
 
 }

@@ -8,10 +8,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +21,8 @@ import lombok.Setter;
 @Table(name = "genres")
 @Getter
 @Setter
+@SQLDelete(sql = "UPDATE genres SET deleted = true WHERE id=?")
+@Where(clause = "deleted = false")
 public class GenreEntity {
 	
 	@Id
@@ -33,23 +36,8 @@ public class GenreEntity {
 	// Soft Delete:
 	private boolean deleted = Boolean.FALSE;		
 	
-	// ManyToMany: Peliculas
-	@ManyToMany(
-			cascade = {
-					CascadeType.PERSIST,
-					CascadeType.MERGE,
-			}, fetch = FetchType.LAZY)
-	@JoinTable(
-			name = "genre_movies",
-			joinColumns= @JoinColumn(name = "genre_id"),
-			inverseJoinColumns = @JoinColumn(name = "movie_id"))
+	// Has Many Movies
+	@ManyToMany(mappedBy = "movieGenres", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<MovieEntity> genreMovies = new ArrayList<>();
-	
-	
-	// Metodos:
-	
-	// addMovie
-	// removeMovie
-	
 
 }

@@ -15,5 +15,5 @@ public class MovieDTO {
 	private double rating; 
 	private String creationDate;
 	private List<CharacterDTO> movieCharacters;
-
+	private List<GenreDTO> movieGenres;
 }
