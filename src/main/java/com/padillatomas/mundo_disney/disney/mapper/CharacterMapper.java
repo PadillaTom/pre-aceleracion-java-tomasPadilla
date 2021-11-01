@@ -3,6 +3,7 @@ package com.padillatomas.mundo_disney.disney.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.padillatomas.mundo_disney.disney.dto.CharacterBasicDTO;
@@ -11,11 +12,14 @@ import com.padillatomas.mundo_disney.disney.entity.CharacterEntity;
 
 @Component
 public class CharacterMapper {
+	
+	// Movie Mapper
+	@Autowired
+	private MovieMapper movieMapper;
 
 	
 	// === DTO -> Entity ===
 	public CharacterEntity charDTO2Entity(CharacterDTO newChar) {
-		System.out.println("New Char Age: " + newChar.getAge());
 		CharacterEntity newEntity = new CharacterEntity();
 		newEntity.setImageUrl(newChar.getImageUrl());
 		newEntity.setName(newChar.getName());
@@ -28,24 +32,30 @@ public class CharacterMapper {
 	}
 		
 	// === Entity -> DTO ===
-	public CharacterDTO entity2DTO(CharacterEntity savedEntity) {
+	public CharacterDTO entity2DTO(CharacterEntity savedEntity, Boolean fetchMovies) {
 		CharacterDTO newDTO = new CharacterDTO();
 		newDTO.setId(savedEntity.getId());
 		newDTO.setImageUrl(savedEntity.getImageUrl());
 		newDTO.setName(savedEntity.getName());
 		newDTO.setAge(savedEntity.getAge());
 		newDTO.setWeight(savedEntity.getWeight());
-		newDTO.setHistory(savedEntity.getHistory());
-		
-		//TODO: BOOLEAN fetchMovies		
-		
+		newDTO.setHistory(savedEntity.getHistory());		
+		if(fetchMovies) {
+			newDTO.setCharacterMovies(movieMapper.movieEntityList2DTOList(savedEntity.getCharacterMovies()));		
+		}		
 		return newDTO;
-	}	
+	}		
+	
+	// === List<Entity> -> List<DTO> ===
+	public List<CharacterDTO> charListEntity2DTOList(List<CharacterEntity> movieCharacters) {
+		List<CharacterDTO> newList = new ArrayList<>();
+		for(CharacterEntity ent: movieCharacters) {
+			newList.add(this.entity2DTO(ent, false));
+		}
+		return newList;
+	}
 	
 	
-	
-	//
-	// === BasicList<DTO> -> BasicList<Entity> ===
 	// === List<DTO> -> List<Entity> ===
 	
 	
@@ -68,6 +78,6 @@ public class CharacterMapper {
 			listDTO.add(this.charEntity2BasicDTO(ch));
 		}
 		return listDTO;
-	}	
+	}		
 
 }

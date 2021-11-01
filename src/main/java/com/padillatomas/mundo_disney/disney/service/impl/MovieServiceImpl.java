@@ -32,9 +32,9 @@ public class MovieServiceImpl implements MovieService {
 
 	@Override
 	public MovieDTO getMovieDetails(Long id) {
-		//TODO -> GetCharacters true, error
+		//TODO -> OPTIONAL, ERROR HANDLING
 		MovieEntity dbMovie = movieRepo.getById(id);
-		MovieDTO resultDTO = movieMapper.entity2DTO(dbMovie);
+		MovieDTO resultDTO = movieMapper.entity2DTO(dbMovie, true);
 		return resultDTO;
 	}
 
@@ -43,7 +43,7 @@ public class MovieServiceImpl implements MovieService {
 	public MovieDTO saveNewMovie(MovieDTO newMovie) {
 		MovieEntity newEntity = movieMapper.movieDTO2Entity(newMovie);
 		MovieEntity savedEntity = movieRepo.save(newEntity);
-		MovieDTO resultDTO = movieMapper.entity2DTO(savedEntity);
+		MovieDTO resultDTO = movieMapper.entity2DTO(savedEntity, false);
 		return resultDTO;
 	}
 

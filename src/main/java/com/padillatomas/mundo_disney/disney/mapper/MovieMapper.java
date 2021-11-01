@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.padillatomas.mundo_disney.disney.dto.MovieBasicDTO;
@@ -13,6 +14,10 @@ import com.padillatomas.mundo_disney.disney.entity.MovieEntity;
 
 @Component
 public class MovieMapper {
+	
+	// Character Mapper:
+	@Autowired
+	private CharacterMapper charMapper;
 
 	//
 	// === DTO -> Entity ===
@@ -28,14 +33,16 @@ public class MovieMapper {
 	
 	
 	// === Entity -> DTO ===
-	public MovieDTO entity2DTO(MovieEntity dbMovie) {
+	public MovieDTO entity2DTO(MovieEntity dbMovie, boolean b) {
 		MovieDTO dto = new MovieDTO();
 		dto.setId(dbMovie.getId());
 		dto.setImageUrl(dbMovie.getImageUrl());
 		dto.setTitle(dbMovie.getTitle());	
 		dto.setRating(dbMovie.getRating());
 		dto.setCreationDate(this.localDate2String(dbMovie.getCreationDate()));
-		
+		if(b) {
+			dto.setMovieCharacters(charMapper.charListEntity2DTOList(dbMovie.getMovieCharacters()));
+		}		
 		return dto;
 	}
 	//
@@ -46,7 +53,7 @@ public class MovieMapper {
 	public List<MovieDTO> movieEntityList2DTOList(List<MovieEntity> entList){
 		List<MovieDTO> dtoList = new ArrayList<>();
 		for(MovieEntity ent : entList) {
-			dtoList.add(this.entity2DTO(ent));
+			dtoList.add(this.entity2DTO(ent, false));
 		}
 		return dtoList;
 	}
