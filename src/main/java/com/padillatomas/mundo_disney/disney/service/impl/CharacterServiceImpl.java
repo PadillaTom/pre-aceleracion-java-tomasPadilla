@@ -43,9 +43,7 @@ public class CharacterServiceImpl implements CharacterService {
 	// == POST ==
 	@Override
 	public CharacterDTO saveNewCharacter(CharacterDTO newChar) {
-		System.out.println(newChar.getHistory());
 		CharacterEntity newEntity = charMapper.charDTO2Entity(newChar);
-		System.out.println(newChar.getHistory());
 		CharacterEntity savedEntity = charRepo.save(newEntity);
 		CharacterDTO savedChar = charMapper.entity2DTO(savedEntity, false);		
 		return savedChar;
@@ -55,14 +53,21 @@ public class CharacterServiceImpl implements CharacterService {
 	@Override
 	public void deleteCharacterById(Long id) {
 		charRepo.deleteById(id);		
-	}	
-
+	}
 	
-	// == GET ==
-	
-	
-	// == METHODS ==
-	
-	
+	// == PUT ==
+	@Override
+	public CharacterDTO editCharacterById(Long id, CharacterDTO charToEdit) {
+		// TODO: Error handling
+		CharacterEntity savedChar = charRepo.getById(id);
+		savedChar.setImageUrl(charToEdit.getImageUrl());
+		savedChar.setName(charToEdit.getName());
+		savedChar.setAge(charToEdit.getAge());
+		savedChar.setWeight(charToEdit.getWeight());
+		savedChar.setHistory(charToEdit.getHistory());		
+		CharacterEntity editedChar = charRepo.save(savedChar);
+		CharacterDTO resultDTO = charMapper.entity2DTO(editedChar, false);		
+		return resultDTO;
+	}		
 	
 }

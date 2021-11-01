@@ -20,6 +20,7 @@ public interface MovieService {
 	// DEL
 	void deleteMovieById(Long id);
 
-
+	// PUT
+	MovieDTO editMovieById(Long id, MovieDTO movieToEdit);
 
 }

@@ -15,4 +15,7 @@ public interface GenreService {
 	// Del
 	void deleteGenreById(Long id);
 
+	// PUT
+	GenreDTO editGenreById(Long id, GenreDTO genreToEdit);
+
 }

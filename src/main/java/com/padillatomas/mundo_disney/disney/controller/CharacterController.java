@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,16 +29,13 @@ public class CharacterController {
 	private CharacterService charServ;
 	
 	
-	// == GET ==
-	
-	// Basic All
+	// == GET ==		
 	@GetMapping
 	public ResponseEntity<List<CharacterBasicDTO>> getBasicCharacters(){
 		List<CharacterBasicDTO> charDTO = charServ.getCharacterBasicList();
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(charDTO);
 	}
-	
-	// Details by Id
+		
 	@GetMapping("/details/{id}")
 	public ResponseEntity<CharacterDTO> getDetailsById(@PathVariable Long id){
 		CharacterDTO charDetails = charServ.getCharDetails(id);
@@ -52,6 +50,11 @@ public class CharacterController {
 	}
 	
 	// == PUT ==	
+	@PutMapping("/{id}")
+	public ResponseEntity<CharacterDTO> editCharacter(@PathVariable Long id, @RequestBody CharacterDTO charToEdit){
+		CharacterDTO editedChar = charServ.editCharacterById(id, charToEdit);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(editedChar);
+	}
 	
 	// == DELETE ==	
 	@DeleteMapping("/delete/{id}")

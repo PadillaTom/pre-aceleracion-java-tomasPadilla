@@ -16,4 +16,7 @@ public interface CharacterService {
 	
 	// DEL
 	void deleteCharacterById(Long id);
+	
+	// PUT
+	CharacterDTO editCharacterById(Long id, CharacterDTO charToEdit);
 }

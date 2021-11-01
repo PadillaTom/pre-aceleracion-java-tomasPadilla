@@ -76,13 +76,26 @@ public class MovieServiceImpl implements MovieService {
 		savedMovie.getMovieGenres().size();
 		savedMovie.addGenreToMovie(savedGenre);
 		movieRepo.save(savedMovie);		
-	}
+	}	
 	
+	// == PUT ==
+	@Override
+	public MovieDTO editMovieById(Long id, MovieDTO movieToEdit) {
+		// TODO: Error Handling
+		MovieEntity savedMovie = movieRepo.getById(id);
+		savedMovie.setImageUrl(movieToEdit.getImageUrl());
+		savedMovie.setTitle(movieToEdit.getTitle());
+		savedMovie.setRating(movieToEdit.getRating());
+		savedMovie.setCreationDate(movieMapper.String2LocalDate(movieToEdit.getCreationDate()));	
+		MovieEntity editedMovie = movieRepo.save(savedMovie);		
+		MovieDTO resultDTO = movieMapper.entity2DTO(editedMovie, false);
+		return resultDTO;
+	}
 
 	// == DELETE ==
 	@Override
 	public void deleteMovieById(Long id) {
 		movieRepo.deleteById(id);
-	}
+	}	
 
 }
