@@ -41,16 +41,16 @@ public class CharacterMapper {
 		newDTO.setWeight(savedEntity.getWeight());
 		newDTO.setHistory(savedEntity.getHistory());		
 		if(fetchMovies) {
-			newDTO.setCharacterMovies(movieMapper.movieEntityList2DTOList(savedEntity.getCharacterMovies()));		
+			newDTO.setCharacterMovies(movieMapper.movieEntityList2DTOList(savedEntity.getCharacterMovies(), false));		
 		}		
 		return newDTO;
 	}		
 	
 	// === List<Entity> -> List<DTO> ===
-	public List<CharacterDTO> charListEntity2DTOList(List<CharacterEntity> movieCharacters) {
+	public List<CharacterDTO> charListEntity2DTOList(List<CharacterEntity> movieCharacters, boolean b) {
 		List<CharacterDTO> newList = new ArrayList<>();
 		for(CharacterEntity ent: movieCharacters) {
-			newList.add(this.entity2DTO(ent, false));
+			newList.add(this.entity2DTO(ent, b));
 		}
 		return newList;
 	}

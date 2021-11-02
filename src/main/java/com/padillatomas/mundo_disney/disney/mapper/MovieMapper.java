@@ -44,7 +44,7 @@ public class MovieMapper {
 		dto.setRating(dbMovie.getRating());
 		dto.setCreationDate(this.localDate2String(dbMovie.getCreationDate()));
 		if(b) {
-			dto.setMovieCharacters(charMapper.charListEntity2DTOList(dbMovie.getMovieCharacters()));
+			dto.setMovieCharacters(charMapper.charListEntity2DTOList(dbMovie.getMovieCharacters(), false));
 			dto.setMovieGenres(genMapper.genreEntityList2DTOList(dbMovie.getMovieGenres()));
 		}		
 		return dto;
@@ -54,10 +54,10 @@ public class MovieMapper {
 	
 	//
 	// === List<Entity> -> List<DTO> ===
-	public List<MovieDTO> movieEntityList2DTOList(List<MovieEntity> entList){
+	public List<MovieDTO> movieEntityList2DTOList(List<MovieEntity> entList, boolean b){
 		List<MovieDTO> dtoList = new ArrayList<>();
 		for(MovieEntity ent : entList) {
-			dtoList.add(this.entity2DTO(ent, false));
+			dtoList.add(this.entity2DTO(ent, b));
 		}
 		return dtoList;
 	}

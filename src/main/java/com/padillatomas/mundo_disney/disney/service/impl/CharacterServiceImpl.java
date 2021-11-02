@@ -1,15 +1,18 @@
 package com.padillatomas.mundo_disney.disney.service.impl;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.padillatomas.mundo_disney.disney.dto.CharacterBasicDTO;
 import com.padillatomas.mundo_disney.disney.dto.CharacterDTO;
+import com.padillatomas.mundo_disney.disney.dto.CharacterFiltersDTO;
 import com.padillatomas.mundo_disney.disney.entity.CharacterEntity;
 import com.padillatomas.mundo_disney.disney.mapper.CharacterMapper;
 import com.padillatomas.mundo_disney.disney.repository.CharacterRepository;
+import com.padillatomas.mundo_disney.disney.repository.specifications.CharacterSpecification;
 import com.padillatomas.mundo_disney.disney.service.CharacterService;
 
 @Service
@@ -22,6 +25,10 @@ public class CharacterServiceImpl implements CharacterService {
 	// Mapper:
 	@Autowired
 	private CharacterMapper charMapper;
+	
+	// Specifications:
+	@Autowired
+	private CharacterSpecification charSpecs;
 	
 
 	// == GET ==
@@ -67,6 +74,15 @@ public class CharacterServiceImpl implements CharacterService {
 		savedChar.setHistory(charToEdit.getHistory());		
 		CharacterEntity editedChar = charRepo.save(savedChar);
 		CharacterDTO resultDTO = charMapper.entity2DTO(editedChar, false);		
+		return resultDTO;
+	}
+
+	// == FILTERS ==
+	@Override
+	public List<CharacterDTO> getByFilters(String name, Integer age, Set<Long> movies) {
+		CharacterFiltersDTO filtersDTO = new CharacterFiltersDTO(name, age, movies);
+		List<CharacterEntity> entityList = charRepo.findAll(charSpecs.getFiltered(filtersDTO));
+		List<CharacterDTO> resultDTO = charMapper.charListEntity2DTOList(entityList, true);
 		return resultDTO;
 	}		
 	

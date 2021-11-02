@@ -1,6 +1,7 @@
 package com.padillatomas.mundo_disney.disney.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.padillatomas.mundo_disney.disney.dto.CharacterBasicDTO;
 import com.padillatomas.mundo_disney.disney.dto.CharacterDTO;
@@ -19,4 +20,7 @@ public interface CharacterService {
 	
 	// PUT
 	CharacterDTO editCharacterById(Long id, CharacterDTO charToEdit);
+	
+	// FILTERS
+	List<CharacterDTO> getByFilters(String name, Integer age, Set<Long> movies);
 }

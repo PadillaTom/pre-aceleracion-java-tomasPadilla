@@ -1,12 +1,14 @@
 package com.padillatomas.mundo_disney.disney.service.impl;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.padillatomas.mundo_disney.disney.dto.MovieBasicDTO;
 import com.padillatomas.mundo_disney.disney.dto.MovieDTO;
+import com.padillatomas.mundo_disney.disney.dto.MovieFiltersDTO;
 import com.padillatomas.mundo_disney.disney.entity.CharacterEntity;
 import com.padillatomas.mundo_disney.disney.entity.GenreEntity;
 import com.padillatomas.mundo_disney.disney.entity.MovieEntity;
@@ -14,6 +16,7 @@ import com.padillatomas.mundo_disney.disney.mapper.MovieMapper;
 import com.padillatomas.mundo_disney.disney.repository.CharacterRepository;
 import com.padillatomas.mundo_disney.disney.repository.GenreRepository;
 import com.padillatomas.mundo_disney.disney.repository.MovieRepository;
+import com.padillatomas.mundo_disney.disney.repository.specifications.MovieSpecifications;
 import com.padillatomas.mundo_disney.disney.service.MovieService;
 
 @Service
@@ -30,6 +33,10 @@ public class MovieServiceImpl implements MovieService {
 	// Mapper:
 	@Autowired
 	private MovieMapper movieMapper;	
+	
+	// Specifications:
+	@Autowired
+	private MovieSpecifications movieSpecs;
 	
 	// == GET ==
 	@Override
@@ -96,6 +103,15 @@ public class MovieServiceImpl implements MovieService {
 	@Override
 	public void deleteMovieById(Long id) {
 		movieRepo.deleteById(id);
+	}
+
+	// == FILTERS ==
+	@Override
+	public List<MovieDTO> getByFilters(String title, Set<Long> genre, String order) {
+		MovieFiltersDTO movieFilters = new MovieFiltersDTO(title, genre, order);
+		List<MovieEntity> entityList = movieRepo.findAll(movieSpecs.getFiltered(movieFilters));
+		List<MovieDTO> resultDTO = movieMapper.movieEntityList2DTOList(entityList, true);
+		return resultDTO;
 	}	
 
 }

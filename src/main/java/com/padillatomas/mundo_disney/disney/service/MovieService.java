@@ -1,6 +1,7 @@
 package com.padillatomas.mundo_disney.disney.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.padillatomas.mundo_disney.disney.dto.MovieBasicDTO;
 import com.padillatomas.mundo_disney.disney.dto.MovieDTO;
@@ -22,5 +23,8 @@ public interface MovieService {
 
 	// PUT
 	MovieDTO editMovieById(Long id, MovieDTO movieToEdit);
+
+	// FILTERS
+	List<MovieDTO> getByFilters(String name, Set<Long> genre, String order);
 
 }

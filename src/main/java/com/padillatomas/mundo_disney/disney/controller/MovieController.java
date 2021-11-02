@@ -1,6 +1,7 @@
 package com.padillatomas.mundo_disney.disney.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.padillatomas.mundo_disney.disney.dto.MovieBasicDTO;
@@ -28,7 +30,7 @@ public class MovieController {
 		
 			
 	// == GET ==
-	@GetMapping
+	@GetMapping("/all")
 	public ResponseEntity<List<MovieBasicDTO>> getBasicMovies(){
 		List<MovieBasicDTO> movies = movieServ.getBasicMoviesList();
 		return ResponseEntity.status(HttpStatus.OK).body(movies);
@@ -72,4 +74,16 @@ public class MovieController {
 		movieServ.deleteMovieById(id);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
+	
+	// == FILTERS ==
+	@GetMapping
+	public ResponseEntity<List<MovieDTO>> getDetailsByFilters(
+			@RequestParam(required = false) String title,
+			@RequestParam(required = false) Set<Long> genre,
+			@RequestParam(required = false, defaultValue = "ASC") String order
+			){
+		List<MovieDTO> filteredMovies = movieServ.getByFilters(title, genre, order);
+		return ResponseEntity.status(HttpStatus.OK).body(filteredMovies);
+	}
+	
 }

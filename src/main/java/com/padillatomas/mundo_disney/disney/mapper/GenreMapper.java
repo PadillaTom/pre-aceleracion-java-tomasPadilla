@@ -33,7 +33,7 @@ public class GenreMapper {
 		dto.setName(savedGenre.getName());
 		dto.setImageUrl(savedGenre.getImageUrl());	
 		if(b) {
-			dto.setGenreMovies(movieMapper.movieEntityList2DTOList(savedGenre.getGenreMovies()));			
+			dto.setGenreMovies(movieMapper.movieEntityList2DTOList(savedGenre.getGenreMovies(), false));			
 		}
 		return dto;
 	}	
