@@ -1,6 +1,7 @@
 package com.padillatomas.mundo_disney.disney.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,9 @@ import com.padillatomas.mundo_disney.disney.dto.MovieFiltersDTO;
 import com.padillatomas.mundo_disney.disney.entity.CharacterEntity;
 import com.padillatomas.mundo_disney.disney.entity.GenreEntity;
 import com.padillatomas.mundo_disney.disney.entity.MovieEntity;
+import com.padillatomas.mundo_disney.disney.exception.ParamNotFound;
 import com.padillatomas.mundo_disney.disney.mapper.MovieMapper;
 import com.padillatomas.mundo_disney.disney.repository.CharacterRepository;
-import com.padillatomas.mundo_disney.disney.repository.GenreRepository;
 import com.padillatomas.mundo_disney.disney.repository.MovieRepository;
 import com.padillatomas.mundo_disney.disney.repository.specifications.MovieSpecifications;
 import com.padillatomas.mundo_disney.disney.service.MovieService;
@@ -26,13 +27,17 @@ public class MovieServiceImpl implements MovieService {
 	@Autowired
 	private MovieRepository movieRepo;
 	@Autowired
-	private CharacterRepository charRepo;
-	@Autowired
-	private GenreRepository genreRepo;
+	private CharacterRepository charRepo;	
 	
 	// Mapper:
 	@Autowired
-	private MovieMapper movieMapper;	
+	private MovieMapper movieMapper;
+	
+	// Service:
+	@Autowired
+	private GenreServiceImpl genreServ;
+	@Autowired
+	private CharacterServiceImpl charServ;
 	
 	// Specifications:
 	@Autowired
@@ -43,14 +48,16 @@ public class MovieServiceImpl implements MovieService {
 	public List<MovieBasicDTO> getBasicMoviesList() {
 		List<MovieEntity> dbList = movieRepo.findAll();
 		List<MovieBasicDTO> resultDTO = movieMapper.entityList2BasicDTO(dbList);
+		
 		return resultDTO;
 	}
 
 	@Override
-	public MovieDTO getMovieDetails(Long id) {
-		//TODO -> OPTIONAL, ERROR HANDLING
-		MovieEntity dbMovie = movieRepo.getById(id);
+	public MovieDTO getMovieDetails(Long id) {		
+		MovieEntity dbMovie = this.handleFindById(id);
+		
 		MovieDTO resultDTO = movieMapper.entity2DTO(dbMovie, true);
+		
 		return resultDTO;
 	}
 
@@ -60,42 +67,45 @@ public class MovieServiceImpl implements MovieService {
 		MovieEntity newEntity = movieMapper.movieDTO2Entity(newMovie);
 		MovieEntity savedEntity = movieRepo.save(newEntity);
 		MovieDTO resultDTO = movieMapper.entity2DTO(savedEntity, false);
+		
 		return resultDTO;
 	}
 	
 	@Override
-	public void addCharacterToMovie(Long movieId, Long charId) {
-		// TODO OPTIONALS
-		MovieEntity savedMovie = movieRepo.getById(movieId);
-		CharacterEntity savedChar = charRepo.getById(charId);	
+	public void addCharacterToMovie(Long movieId, Long charId) {		
+		MovieEntity savedMovie = this.handleFindById(movieId);
+		CharacterEntity savedChar = charServ.handleFindById(charId);	
 		
 		savedMovie.getMovieCharacters().size();
-		savedMovie.addCharacterToMovie(savedChar);			
+		savedMovie.addCharacterToMovie(savedChar);	
+		
 		movieRepo.save(savedMovie);		
 	}
 	
 	@Override
-	public void addGenreToMovie(Long movieId, Long genreId) {
-		// TODO Optionals
-		MovieEntity savedMovie = movieRepo.getById(movieId);
-		GenreEntity savedGenre = genreRepo.getById(genreId);
+	public void addGenreToMovie(Long movieId, Long genreId) {	
+		MovieEntity savedMovie = this.handleFindById(movieId);
+		GenreEntity savedGenre = genreServ.handleFindById(genreId);	
 		
 		savedMovie.getMovieGenres().size();
 		savedMovie.addGenreToMovie(savedGenre);
+		
 		movieRepo.save(savedMovie);		
 	}	
 	
 	// == PUT ==
 	@Override
-	public MovieDTO editMovieById(Long id, MovieDTO movieToEdit) {
-		// TODO: Error Handling
-		MovieEntity savedMovie = movieRepo.getById(id);
+	public MovieDTO editMovieById(Long id, MovieDTO movieToEdit) {		
+		MovieEntity savedMovie = this.handleFindById(id);	
+		
 		savedMovie.setImageUrl(movieToEdit.getImageUrl());
 		savedMovie.setTitle(movieToEdit.getTitle());
 		savedMovie.setRating(movieToEdit.getRating());
-		savedMovie.setCreationDate(movieMapper.String2LocalDate(movieToEdit.getCreationDate()));	
+		savedMovie.setCreationDate(movieMapper.String2LocalDate(movieToEdit.getCreationDate()));
+		
 		MovieEntity editedMovie = movieRepo.save(savedMovie);		
 		MovieDTO resultDTO = movieMapper.entity2DTO(editedMovie, false);
+		
 		return resultDTO;
 	}
 
@@ -109,9 +119,20 @@ public class MovieServiceImpl implements MovieService {
 	@Override
 	public List<MovieDTO> getByFilters(String title, Set<Long> genre, String order) {
 		MovieFiltersDTO movieFilters = new MovieFiltersDTO(title, genre, order);
+		
 		List<MovieEntity> entityList = movieRepo.findAll(movieSpecs.getFiltered(movieFilters));
 		List<MovieDTO> resultDTO = movieMapper.movieEntityList2DTOList(entityList, true);
+		
 		return resultDTO;
 	}	
+	
+	// == ERROR HANDLING ==
+	public MovieEntity handleFindById(Long id) {
+		Optional<MovieEntity> toBeFound = movieRepo.findById(id);
+		if(!toBeFound.isPresent()) {
+			throw new ParamNotFound("No Movie for id: " + id);
+		}
+		return toBeFound.get();
+	}
 
 }
