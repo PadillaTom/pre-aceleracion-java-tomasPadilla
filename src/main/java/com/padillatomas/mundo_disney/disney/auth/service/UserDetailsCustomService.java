@@ -14,12 +14,16 @@ import org.springframework.stereotype.Service;
 import com.padillatomas.mundo_disney.disney.auth.dto.UserDTO;
 import com.padillatomas.mundo_disney.disney.auth.entity.UserEntity;
 import com.padillatomas.mundo_disney.disney.auth.repository.UserRepository;
+import com.padillatomas.mundo_disney.disney.service.EmailService;
 
 @Service
 public class UserDetailsCustomService implements UserDetailsService {
 
 	@Autowired
 	private UserRepository userRepo;
+	
+	@Autowired
+	private EmailService emailServ;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -58,9 +62,9 @@ public class UserDetailsCustomService implements UserDetailsService {
 		newUser = userRepo.save(newUser);
 		
 		//Email Stuff:
-//		if(newUser != null) {
-//			emailServ.sendWelcomeEmail(newUser.getUsername());
-//		}
+		if(newUser != null) {
+			emailServ.sendWelcomeEmail(newUser.getUsername());
+		}
 		
 		return newUser != null;		
 	}	
