@@ -15,9 +15,9 @@ import com.padillatomas.mundo_disney.disney.entity.MovieEntity;
 @Component
 public class MovieMapper {
 	
-	// Character Mapper:
+	// Mappers:
 	@Autowired
-	private CharacterMapper charMapper;
+	private CharacterMapper charMapper;	
 	@Autowired
 	private GenreMapper genMapper;
 	
@@ -32,8 +32,7 @@ public class MovieMapper {
 		ent.setRating(dto.getRating());
 		ent.setCreationDate(this.String2LocalDate(dto.getCreationDate()));
 		return ent;
-	}
-	
+	}	
 	
 	// === Entity -> DTO ===
 	public MovieDTO entity2DTO(MovieEntity dbMovie, boolean b) {
@@ -49,9 +48,7 @@ public class MovieMapper {
 		}		
 		return dto;
 	}
-	//
-	// === List<DTO> -> List<Entity> ===
-	
+
 	//
 	// === List<Entity> -> List<DTO> ===
 	public List<MovieDTO> movieEntityList2DTOList(List<MovieEntity> entList, boolean b){
@@ -62,8 +59,11 @@ public class MovieMapper {
 		return dtoList;
 	}
 
-	// BASIC
-
+	
+	// ::::::::::::::::::::
+	// ::::::: BASIC ::::::
+	// ::::::::::::::::::::
+	
 	//=== Entity -> BasicDTO ===
 	public MovieBasicDTO entity2BasicDTO(MovieEntity ent) {
 		MovieBasicDTO dto = new MovieBasicDTO();
@@ -82,17 +82,18 @@ public class MovieMapper {
 		return newList;
 	}
 
-
 	// --> Utils <--
 	public LocalDate String2LocalDate(String enteredDate) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
 		LocalDate transformedDate = LocalDate.parse(enteredDate, formatter);
 		return transformedDate;
 	}
+	
 	public String localDate2String(LocalDate dbDate) {
 		String formattedDate = dbDate.format(DateTimeFormatter.ofPattern("d/MM/yyyy"));	
 		return formattedDate;
 	}
+	
 }
 	
 

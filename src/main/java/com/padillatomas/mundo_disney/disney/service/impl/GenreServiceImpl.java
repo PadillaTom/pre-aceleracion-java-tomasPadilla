@@ -20,6 +20,7 @@ public class GenreServiceImpl implements GenreService {
 	// Repository:
 	@Autowired
 	private GenreRepository genreRepo;
+	
 	// Mapper:
 	@Autowired
 	private GenreMapper genreMapper;
@@ -57,7 +58,6 @@ public class GenreServiceImpl implements GenreService {
 	public void deleteGenreById(Long id) {
 		genreRepo.deleteById(id);		
 	}
-	
 	
 	// :: Error Handling ::
 	public GenreEntity handleFindById(Long id) {

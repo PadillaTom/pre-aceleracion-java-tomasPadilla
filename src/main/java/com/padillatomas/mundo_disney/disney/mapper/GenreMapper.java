@@ -12,7 +12,7 @@ import com.padillatomas.mundo_disney.disney.entity.GenreEntity;
 @Component
 public class GenreMapper {
 	
-	// MovieMapper:
+	// Mappers:
 	@Autowired
 	private MovieMapper movieMapper;
 
@@ -47,8 +47,5 @@ public class GenreMapper {
 		}
 		return dtoList;
 	}
-
-	//
-	// === List<DTO> -> List<Entity> ===
 	
 }

@@ -43,10 +43,8 @@ public class CharacterServiceImpl implements CharacterService {
 	
 	@Override
 	public CharacterDTO getCharDetails(Long id) {		
-		CharacterEntity dbChar = this.handleFindById(id);	
-		
-		CharacterDTO resultDTO = charMapper.entity2DTO(dbChar, true);
-		
+		CharacterEntity dbChar = this.handleFindById(id);		
+		CharacterDTO resultDTO = charMapper.entity2DTO(dbChar, true);		
 		return resultDTO;		
 	}
 
@@ -55,8 +53,7 @@ public class CharacterServiceImpl implements CharacterService {
 	public CharacterDTO saveNewCharacter(CharacterDTO newChar) {
 		CharacterEntity newEntity = charMapper.charDTO2Entity(newChar);
 		CharacterEntity savedEntity = charRepo.save(newEntity);
-		CharacterDTO savedChar = charMapper.entity2DTO(savedEntity, false);	
-		
+		CharacterDTO savedChar = charMapper.entity2DTO(savedEntity, false);			
 		return savedChar;
 	}
 	
@@ -69,16 +66,14 @@ public class CharacterServiceImpl implements CharacterService {
 	// == PUT ==
 	@Override
 	public CharacterDTO editCharacterById(Long id, CharacterDTO charToEdit) {		
-		CharacterEntity savedChar = this.handleFindById(id);
-		
+		CharacterEntity savedChar = this.handleFindById(id);		
 		savedChar.setImageUrl(charToEdit.getImageUrl());
 		savedChar.setName(charToEdit.getName());
 		savedChar.setAge(charToEdit.getAge());
 		savedChar.setWeight(charToEdit.getWeight());
 		savedChar.setHistory(charToEdit.getHistory());		
 		CharacterEntity editedChar = charRepo.save(savedChar);
-		CharacterDTO resultDTO = charMapper.entity2DTO(editedChar, false);	
-		
+		CharacterDTO resultDTO = charMapper.entity2DTO(editedChar, false);			
 		return resultDTO;
 	}
 

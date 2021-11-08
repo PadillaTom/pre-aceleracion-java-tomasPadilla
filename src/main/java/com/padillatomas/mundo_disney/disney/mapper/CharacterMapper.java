@@ -13,10 +13,9 @@ import com.padillatomas.mundo_disney.disney.entity.CharacterEntity;
 @Component
 public class CharacterMapper {
 	
-	// Movie Mapper
+	// Mappers:
 	@Autowired
 	private MovieMapper movieMapper;
-
 	
 	// === DTO -> Entity ===
 	public CharacterEntity charDTO2Entity(CharacterDTO newChar) {
@@ -25,9 +24,9 @@ public class CharacterMapper {
 		newEntity.setName(newChar.getName());
 		newEntity.setAge(newChar.getAge());
 		newEntity.setWeight(newChar.getWeight());
-		newEntity.setHistory(newChar.getHistory());	
-		
+		newEntity.setHistory(newChar.getHistory());			
 		// TODO : PASAR ARRAY MOVIESID
+		
 		return newEntity;
 	}
 		
@@ -55,13 +54,9 @@ public class CharacterMapper {
 		return newList;
 	}
 	
-	
-	// === List<DTO> -> List<Entity> ===
-	
-	
-	//
-	// BASIC
-	//
+	// ::::::::::::::::::::
+	// ::::::: BASIC ::::::
+	// ::::::::::::::::::::
 	
 	// === Entity -> BasicDTO ===
 		private CharacterBasicDTO charEntity2BasicDTO(CharacterEntity ch) {

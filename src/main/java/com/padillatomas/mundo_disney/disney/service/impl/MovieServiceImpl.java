@@ -15,7 +15,6 @@ import com.padillatomas.mundo_disney.disney.entity.GenreEntity;
 import com.padillatomas.mundo_disney.disney.entity.MovieEntity;
 import com.padillatomas.mundo_disney.disney.exception.ParamNotFound;
 import com.padillatomas.mundo_disney.disney.mapper.MovieMapper;
-import com.padillatomas.mundo_disney.disney.repository.CharacterRepository;
 import com.padillatomas.mundo_disney.disney.repository.MovieRepository;
 import com.padillatomas.mundo_disney.disney.repository.specifications.MovieSpecifications;
 import com.padillatomas.mundo_disney.disney.service.MovieService;
@@ -26,8 +25,6 @@ public class MovieServiceImpl implements MovieService {
 	// Repository:
 	@Autowired
 	private MovieRepository movieRepo;
-	@Autowired
-	private CharacterRepository charRepo;	
 	
 	// Mapper:
 	@Autowired
@@ -47,17 +44,14 @@ public class MovieServiceImpl implements MovieService {
 	@Override
 	public List<MovieBasicDTO> getBasicMoviesList() {
 		List<MovieEntity> dbList = movieRepo.findAll();
-		List<MovieBasicDTO> resultDTO = movieMapper.entityList2BasicDTO(dbList);
-		
+		List<MovieBasicDTO> resultDTO = movieMapper.entityList2BasicDTO(dbList);		
 		return resultDTO;
 	}
 
 	@Override
 	public MovieDTO getMovieDetails(Long id) {		
 		MovieEntity dbMovie = this.handleFindById(id);
-		
-		MovieDTO resultDTO = movieMapper.entity2DTO(dbMovie, true);
-		
+		MovieDTO resultDTO = movieMapper.entity2DTO(dbMovie, true);		
 		return resultDTO;
 	}
 
@@ -66,46 +60,38 @@ public class MovieServiceImpl implements MovieService {
 	public MovieDTO saveNewMovie(MovieDTO newMovie) {
 		MovieEntity newEntity = movieMapper.movieDTO2Entity(newMovie);
 		MovieEntity savedEntity = movieRepo.save(newEntity);
-		MovieDTO resultDTO = movieMapper.entity2DTO(savedEntity, false);
-		
+		MovieDTO resultDTO = movieMapper.entity2DTO(savedEntity, false);		
 		return resultDTO;
 	}
 	
 	@Override
 	public void addCharacterToMovie(Long movieId, Long charId) {		
 		MovieEntity savedMovie = this.handleFindById(movieId);
-		CharacterEntity savedChar = charServ.handleFindById(charId);	
-		
+		CharacterEntity savedChar = charServ.handleFindById(charId);		
 		savedMovie.getMovieCharacters().size();
-		savedMovie.addCharacterToMovie(savedChar);	
-		
+		savedMovie.addCharacterToMovie(savedChar);			
 		movieRepo.save(savedMovie);		
 	}
 	
 	@Override
 	public void addGenreToMovie(Long movieId, Long genreId) {	
 		MovieEntity savedMovie = this.handleFindById(movieId);
-		GenreEntity savedGenre = genreServ.handleFindById(genreId);	
-		
+		GenreEntity savedGenre = genreServ.handleFindById(genreId);			
 		savedMovie.getMovieGenres().size();
-		savedMovie.addGenreToMovie(savedGenre);
-		
+		savedMovie.addGenreToMovie(savedGenre);		
 		movieRepo.save(savedMovie);		
 	}	
 	
 	// == PUT ==
 	@Override
 	public MovieDTO editMovieById(Long id, MovieDTO movieToEdit) {		
-		MovieEntity savedMovie = this.handleFindById(id);	
-		
+		MovieEntity savedMovie = this.handleFindById(id);			
 		savedMovie.setImageUrl(movieToEdit.getImageUrl());
 		savedMovie.setTitle(movieToEdit.getTitle());
 		savedMovie.setRating(movieToEdit.getRating());
-		savedMovie.setCreationDate(movieMapper.String2LocalDate(movieToEdit.getCreationDate()));
-		
+		savedMovie.setCreationDate(movieMapper.String2LocalDate(movieToEdit.getCreationDate()));		
 		MovieEntity editedMovie = movieRepo.save(savedMovie);		
-		MovieDTO resultDTO = movieMapper.entity2DTO(editedMovie, false);
-		
+		MovieDTO resultDTO = movieMapper.entity2DTO(editedMovie, false);		
 		return resultDTO;
 	}
 
@@ -118,11 +104,9 @@ public class MovieServiceImpl implements MovieService {
 	// == FILTERS ==
 	@Override
 	public List<MovieDTO> getByFilters(String title, Set<Long> genre, String order) {
-		MovieFiltersDTO movieFilters = new MovieFiltersDTO(title, genre, order);
-		
+		MovieFiltersDTO movieFilters = new MovieFiltersDTO(title, genre, order);		
 		List<MovieEntity> entityList = movieRepo.findAll(movieSpecs.getFiltered(movieFilters));
-		List<MovieDTO> resultDTO = movieMapper.movieEntityList2DTOList(entityList, true);
-		
+		List<MovieDTO> resultDTO = movieMapper.movieEntityList2DTOList(entityList, true);		
 		return resultDTO;
 	}	
 	
