@@ -1,0 +1,662 @@
+{
+	"info": {
+		"_postman_id": "14aa7120-cd55-452d-b207-dd80d0b8bcf4",
+		"name": "Alkemy Academy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Mundo DIsney",
+			"item": [
+				{
+					"name": "Characters",
+					"item": [
+						{
+							"name": "new Char",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{JWT}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"imageUrl\": \"Borrame.jpg\",\n    \"name\": \"Borrame\",\n    \"age\": 10,\n    \"weight\": 100,\n    \"history\": \"Cuarto...\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/characters",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"characters"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "BasicList",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{JWT}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/characters/all",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"characters",
+										"all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Details By Id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{JWT}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/characters/details/10",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"characters",
+										"details",
+										"10"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "edit By Id",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{JWT}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 10,\n    \"imageUrl\": \"CuartoEditado.jpg\",\n    \"name\": \"CuartoCharEditado\",\n    \"age\": 5,\n    \"weight\": 500.0,\n    \"history\": \"Cuarto Editado...\",\n    \"characterMovies\": [\n        {\n            \"id\": 4,\n            \"imageUrl\": \"SegundaMovie.jpg\",\n            \"title\": \"SegundaMovie\",\n            \"rating\": 0.0,\n            \"creationDate\": \"1/01/2020\",\n            \"movieCharacters\": null,\n            \"movieGenres\": null\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/characters/10",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"characters",
+										"10"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{JWT}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/characters/delete/14",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"characters",
+										"delete",
+										"14"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "con Filters",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{JWT}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/characters?age=5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"characters"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "primerPost",
+											"disabled": true
+										},
+										{
+											"key": "age",
+											"value": "5"
+										},
+										{
+											"key": "movies",
+											"value": "4",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Movies",
+					"item": [
+						{
+							"name": "new Movie",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{JWT}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"imageUrl\": \"Borrame.jpg\",\n    \"title\": \"Borrame\",\n    \"rating\": 2,\n    \"creationDate\": \"15/09/2020\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/movies",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add Character To Movie",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{JWT}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/movies/4/character/10",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"movies",
+										"4",
+										"character",
+										"10"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add Genre To Movie",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{JWT}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/movies/4/genre/8",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"movies",
+										"4",
+										"genre",
+										"8"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Basic List",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{JWT}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/movies/all",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"movies",
+										"all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Details By Id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{JWT}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/movies/details/105",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"movies",
+										"details",
+										"105"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "edit By Id",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{JWT}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 4,\n    \"imageUrl\": \"SegundaEditada.jpg\",\n    \"title\": \"SegundaEditada\",\n    \"rating\":5,\n    \"creationDate\": \"15/01/2020\",\n    \"movieCharacters\": [\n        {\n            \"id\": 10,\n            \"imageUrl\": \"CuartoEditado.jpg\",\n            \"name\": \"CuartoCharEditado\",\n            \"age\": 5,\n            \"weight\": 500.0,\n            \"history\": \"Cuarto Editado...\",\n            \"characterMovies\": null\n        }\n    ],\n    \"movieGenres\": [\n        {\n            \"id\": 8,\n            \"imageUrl\": \"SegundoGenre.jpg\",\n            \"name\": \"SegundoGenre\",\n            \"genreMovies\": null\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/movies/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"movies",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{JWT}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/movies/delete/13",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"movies",
+										"delete",
+										"13"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "with Filters",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{JWT}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/movies?title=tercermovie",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"movies"
+									],
+									"query": [
+										{
+											"key": "title",
+											"value": "tercermovie"
+										},
+										{
+											"key": "genre",
+											"value": "8",
+											"disabled": true
+										},
+										{
+											"key": "order",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Genres",
+					"item": [
+						{
+							"name": "new Genre",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{JWT}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"aBorrar\",\n    \"imageUrl\": \"Borrame.jpg\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/genres",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"genres"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "all Genres",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{JWT}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/genres/all",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"genres",
+										"all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{JWT}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/genres/delete/12",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"genres",
+										"delete",
+										"12"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "edit By Id",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{JWT}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"ErrorHandling Genre\",\n    \"imageUrl\": \"Editado.jpg\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/genres/9",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"genres",
+										"9"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "signup",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"padillatomasp@gmail.com\",\n    \"password\": \"test123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/auth/signup",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"auth",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "signin",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"padillatomasp@gmail.com\",\n    \"password\": \"test123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/auth/signin",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"auth",
+										"signin"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
